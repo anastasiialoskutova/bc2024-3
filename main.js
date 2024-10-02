@@ -1,9 +1,11 @@
+// Підключення модулів
 const { Command } = require('commander');
 const fs = require('fs');
 const path = require('path');
 
 const program = new Command();
 
+// Параметри
 program
   .option('-i, --input <path>', 'шлях до файлу для читання')
   .option('-o, --output <path>', 'шлях до файлу для запису результату')
@@ -13,17 +15,20 @@ program.parse(process.argv);
 
 const options = program.opts();
 
+// Перевірка наявності обов'язкового параметра
 if (!options.input) {
   console.error("Please, specify input file");
   process.exit(1);
 }
 
+// Перевірка наявності вхідного файлу
 if (!fs.existsSync(options.input)) {
+ {
   console.error('Cannot find input file');
   process.exit(1);
 }
 
-const filePath = path.resolve(options.input);
+
 let data;
 
 try {
@@ -41,15 +46,15 @@ try {
   process.exit(1);
 }
 
-// Створення результатів у форматі "StockCode-ValCode-Attraction"
+// Створення результатів "StockCode-ValCode-Attraction"
 const results = parsedData.map(item => `${item.StockCode}-${item.ValCode}-${item.Attraction}`);
 
-// Якщо потрібен вивід у консоль
+// Вивід у консоль
 if (options.display) {
   results.forEach(result => console.log(result));
 }
 
-// Якщо потрібен запис у файл
+// Запис у файл
 if (options.output) {
   const outputPath = path.resolve(options.output);
   try {
@@ -60,6 +65,7 @@ if (options.output) {
   }
 }
 
+// Завершення програми, якщо не задано параметрів -d або -o
 if (!options.output && !options.display) {
   process.exit(0);
 }
