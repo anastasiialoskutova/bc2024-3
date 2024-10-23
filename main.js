@@ -1,6 +1,6 @@
 // Підключення модулів
 const { Command } = require('commander');
-const fs = require('fs');
+const fs = require('fs'); 
 const path = require('path');
 
 const program = new Command();
@@ -22,8 +22,8 @@ if (!options.input) {
 }
 
 // Перевірка наявності вхідного файлу
-if (!fs.existsSync(options.input)) {
- {
+if (!fs.existsSync(options.input)) 
+{
   console.error('Cannot find input file');
   process.exit(1);
 }
@@ -32,7 +32,7 @@ if (!fs.existsSync(options.input)) {
 let data;
 
 try {
-  data = fs.readFileSync(filePath, 'utf-8');
+data = fs.readFileSync(options.input, 'utf-8');
 } catch (error) {
   console.error('Error reading input file:', error.message);
   process.exit(1);
@@ -69,3 +69,4 @@ if (options.output) {
 if (!options.output && !options.display) {
   process.exit(0);
 }
+
